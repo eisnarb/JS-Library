@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="library.css">
+  <script src="library.js" defer></script>
+  <title>JavaScript Library</title>
+</head>
+<body>
+  <header>
+    <h1>My Library App</h1>
+    
+    <button id="add-book">Add Book</button>
+
+    <dialog id="book-dialog">
+      <form id="book-form" method="dialog">
+        <h2>Add a Book</h2>
+
+        <label>
+          Title 
+          <input type="text" name="title" required />
+        </label>
+
+        <label>
+          Author 
+          <input type="text" name="author" required />
+        </label>
+
+        <label>
+          Pages
+          <input type="number" name="pages" min="1" required />
+        </label>
+
+        <label>
+          <input type="checkbox" name="read" />
+          I have read this book
+        </label>
+
+        <div>
+          <button type="button" id="cancel-btn">Cancel</button>
+          <button type="submit">Add</button>
+        </div>
+      </form>
+    </dialog>
+  </header>
+  <section class="container">
+    <div class="library" id="library">
+
+    </div>
+    <div class="read-list" id="read-list">
+      
+    </div>
+  </section>
+</body>
+</html>
