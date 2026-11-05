@@ -1,4 +1,16 @@
+.container {
+  display: grid;
+  grid-template-rows: auto auto;
+  gap: 2em;
+}
+
 .library {
+  display: flex;
+  flex-direction: row;
+  gap: 1.5em;
+}
+
+.read-list {
   display: flex;
   flex-direction: row;
   gap: 1.5em;
