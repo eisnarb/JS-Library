@@ -47,7 +47,7 @@ function loadBooks() {
   //new key exists
   if (savedCombined !== null) {
     //if there is data in the old keys, migrate it to the new key
-    if (savedLibrary.length > 0 && savedToRead.length > 0) {
+    if (savedLibrary.length > 0 || savedToRead.length > 0) {
         migrateData(savedLibrary, savedToRead);
       } // if the old keys are empty, remove them and set the combinedLibrary to the new key
         else if (savedLibrary.length == 0 || savedToRead.length == 0) {
@@ -59,7 +59,7 @@ function loadBooks() {
         }
   } //new key doesn't exist
     else if (savedCombined === null) { //if there is data in the old keys, migrate it to the new key
-      if (savedLibrary.length > 0 && savedToRead.length > 0) {
+      if (savedLibrary.length > 0 || savedToRead.length > 0) {
         migrateData(savedLibrary, savedToRead);
       } //if the old keys are emptym remove them and set the combinedLibrary to an empty array
         else if (savedLibrary.length == 0 || savedToRead.length == 0) {
