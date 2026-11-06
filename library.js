@@ -151,10 +151,19 @@ function createCard(book) {
 function renderLibrary(list, container) {
   container.replaceChildren();
 
-  list.forEach((book) => {
+  if (list.length > 0) {
+    list.forEach((book) => {
     const card = createCard(book);
     container.appendChild(card);
   });
+  } else {
+    const placeholder = document.createElement("p");
+    placeholder.classList.add("placeholder");
+    placeholder.textContent = `No books added. Add a book to display them here.`
+    container.appendChild(placeholder);
+  }
+  
+
 }
 
 //display function, filters the array into two constants based on read status, then calls the render function to place cards into appropriate HTML container
