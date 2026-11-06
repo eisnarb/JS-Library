@@ -1,17 +1,59 @@
+*{
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  background-image: url(trnava-university-BEEyeib-am8-unsplash.jpg);
+  background-size: contain;
+}
+
+h1, h2 {
+  color: white;
+  text-shadow: -2px 3px 2px black;
+}
+
 .container {
   display: grid;
   grid-template-rows: auto auto;
-  gap: 2em;
 }
 
-.library {
+
+.to-read, .completed {
   display: flex;
   flex-direction: row;
-  gap: 1.5em;
+  flex-wrap: wrap;
+  background-color: rgb(134, 100, 80);
+  width: 1802px;
+  height: auto;
+  border: 1px solid black;
+  border-width: 5px 1px 5px 1px;
 }
 
-.read-list {
-  display: flex;
-  flex-direction: row;
-  gap: 1.5em;
+.card {
+  height: 400px;
+  width: 100px;
+  padding: 0.25em;
+  border: 1px solid black;
+  border-width: 0 0.5px 1px 0.5px;
+  text-align: center;
+  background-color: rgb(140, 150, 150);
+}
+
+button {
+  background-color: rgb(218, 151, 28);
+  color: white;
+  border: none;
+  width: 90px;
+  height: 3em;
+  border-radius: 45px;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+.placeholder {
+  font-size: 2em;
+  color: rgb(255, 232, 190);
 }
