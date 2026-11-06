@@ -19,6 +19,8 @@ function saveBooks() {
 }
 
 function migrateData(savedLibrary, savedToRead) {
+  //combine the two arrays into one and save onto the new key
+  //overwrites any existing data in the new key; additions made between failed and retried migration can be lost
   const migrateLibrary = savedToRead.concat(savedLibrary);
   localStorage.setItem("combinedLibrary", JSON.stringify(migrateLibrary));
   // check if the new key matches the migrated data, if it does, remove the old keys and set the combinedLibrary to the new key
@@ -31,10 +33,8 @@ function migrateData(savedLibrary, savedToRead) {
     combinedLibrary = migrateLibrary;
   } // if not, log an error message
     else {
-    console.log("Migration failed");
-    myLibrary = savedLibrary;
-    myToReadList = savedToRead;
-    combinedLibrary = [];
+    console.error("Migration failed");
+    combinedLibrary = migrateLibrary;
   }
 }
   
@@ -42,15 +42,15 @@ function migrateData(savedLibrary, savedToRead) {
 function loadBooks() {
   const savedLibrary = JSON.parse(localStorage.getItem("myLibrary")) || [];
   const savedToRead = JSON.parse(localStorage.getItem("myToReadList")) || [];
-  const savedCombined = JSON.parse(localStorage.getItem("combinedLibrary")) || [];
+  const savedCombined = JSON.parse(localStorage.getItem("combinedLibrary"));
 
   //new key exists
   if (savedCombined !== null) {
-    //if there is data in the old keys, migrate it to the new key
+    //if there is data in either of the old keys, migrate it to the new key
     if (savedLibrary.length > 0 || savedToRead.length > 0) {
         migrateData(savedLibrary, savedToRead);
-      } // if the old keys are empty, remove them and set the combinedLibrary to the new key
-        else if (savedLibrary.length == 0 || savedToRead.length == 0) {
+      } // if both the old keys are empty, remove them and set the combinedLibrary to the new key
+        else {
           localStorage.removeItem("myLibrary");
           localStorage.removeItem("myToReadList");
           myLibrary = null;
@@ -58,16 +58,16 @@ function loadBooks() {
           combinedLibrary = savedCombined;
         }
   } //new key doesn't exist
-    else if (savedCombined === null) { //if there is data in the old keys, migrate it to the new key
+    else if (savedCombined === null) { //if there is data in either of the old keys, migrate it to the new key
       if (savedLibrary.length > 0 || savedToRead.length > 0) {
         migrateData(savedLibrary, savedToRead);
-      } //if the old keys are emptym remove them and set the combinedLibrary to an empty array
-        else if (savedLibrary.length == 0 || savedToRead.length == 0) {
+      } //if both of the old keys are empty, remove them and set the combinedLibrary to an empty array
+        else {
           localStorage.removeItem("myLibrary");
           localStorage.removeItem("myToReadList");
           myLibrary = null;
           myToReadList = null;
-          combinedLibrary = savedCombined;
+          localStorage.setItem("combinedLibrary", JSON.stringify([]));
         }
     }
 }
