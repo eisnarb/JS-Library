@@ -163,7 +163,7 @@ function displayBooks() {
   const toReadBooks = combinedLibrary.filter((book) => !book.read);
 
   renderLibrary(toReadBooks, document.querySelector("#to-read-list"));
-  renderLibrary(readBooks, document.querySelector("#library"));
+  renderLibrary(readBooks, document.querySelector("#completed-books"));
 }
 
 //add book form submit logic, handles save and display functions to automatically update UI on submission
