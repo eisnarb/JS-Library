@@ -2,16 +2,20 @@ let myLibrary = [];
 let myToReadList = [];
 let combinedLibrary = [];
 
-function Book(title, author, pages, read) {
+function Book(title, author, pages, read, id = crypto.randomUUID()) {
   if (!new.target) {
     throw Error("You must use the 'new' operator to call this function")
   }
 
-  this.id = crypto.randomUUID();
+  this.id = id;
   this.title = title;
   this.author = author;
   this.pages = pages;
   this.read = read;
+};
+
+Book.prototype.toggleRead = function() {
+  this.read = !this.read;
 };
 
 function saveBooks() {
@@ -70,6 +74,8 @@ function loadBooks() {
           localStorage.setItem("combinedLibrary", JSON.stringify([]));
         }
     }
+
+  combinedLibrary = combinedLibrary.map((book) => new Book(book.title, book.author, book.pages, book.read, book.id));
 }
 
 
@@ -98,8 +104,7 @@ cancelBtn.addEventListener("click", () => {
 
 function delBook(id) {
   combinedLibrary = combinedLibrary.filter((book) => book.id !==id);
-  saveBooks();
-  displayBooks();
+  
 }
 
 function createCard(book) {
@@ -116,29 +121,42 @@ function createCard(book) {
   const pages = document.createElement("p");
   pages.textContent = `${book.pages} pages`;
 
+  const readToggle = document.createElement("button");
+  readToggle.textContent = book.read ? "Mark as Unread" : "Mark as Read";
+  readToggle.addEventListener("click", () => {
+    book.toggleRead();
+    saveBooks();
+    displayBooks();
+  });
+
   const delCard = document.createElement("button");
   delCard.textContent = `Remove`;
   delCard.addEventListener("click", () => {
     delBook(book.id);
+    saveBooks();
+    displayBooks();
   });
 
   
-  card.append(title, author, pages, delCard);
+  card.append(title, author, pages, readToggle, delCard);
   return card;
 }
 
-function displayBooks() {
-  const libraryContainer = document.querySelector("#library");
-  const readListContainer = document.querySelector("#read-list");
+function renderLibrary(list, container) {
+  container.replaceChildren();
 
-  libraryContainer.replaceChildren();
-  readListContainer.replaceChildren();
-  
-  combinedLibrary.forEach((book) => {
-    libraryContainer.appendChild(createCard(book));
+  list.forEach((book) => {
+    const card = createCard(book);
+    container.appendChild(card);
   });
+}
 
- 
+function displayBooks() {
+  const readBooks = combinedLibrary.filter((book) => book.read);
+  const toReadBooks = combinedLibrary.filter((book) => !book.read);
+
+  renderLibrary(readBooks, document.querySelector("#library"));
+  renderLibrary(toReadBooks, document.querySelector("#to-read-list"));
 }
 
 form.addEventListener("submit", () => {
